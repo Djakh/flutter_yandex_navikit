@@ -1,0 +1,671 @@
+diff --git a/.gitignore b/.gitignore
+index 927c084..c21da21 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1,4 +1,6 @@
+-# Miscellaneous
++# =========================
++# OS / Misc
++# =========================
+ *.class
+ *.log
+ *.pyc
+@@ -12,41 +14,48 @@
+ .swiftpm/
+ migrate_working_dir/
+ 
+-# IntelliJ related
++# =========================
++# IDE
++# =========================
+ *.iml
+ *.ipr
+ *.iws
+ .idea/
++.vscode/
++*.xcworkspace
++*.xcuserstate
+ 
+-# The .vscode folder contains launch configuration and tasks you configure in
+-# VS Code which you may wish to be included in version control, so this line
+-# is commented out by default.
+-#.vscode/
+-
+-*.env
+-
+-# Flutter/Dart/Pub related
+-**/doc/api/
+-**/ios/Flutter/.last_build_id
++# =========================
++# Flutter / Dart / Pub
++# =========================
+ .dart_tool/
+ .flutter-plugins
+ .flutter-plugins-dependencies
+ .pub-cache/
+ .pub/
+-/build/
+-
+-# Symbolication related
+-app.*.symbols
++.packages
++.generated_plugin_registrant.dart
++*.g.dart
++coverage/
++generated_plugin_registrant.dart
+ 
+-# Obfuscation related
+-app.*.map.json
++# Flutter build outputs
++/build/
++**/build/
++example/build/
+ 
+-# Android Studio will place build artifacts here
+-/android/app/debug21
+-/android/app/profile
+-/android/app/release
++# =========================
++# Env / Tools
++# =========================
++*.env
++.fvm/
++**/.fvm/
++.fvmrc
++pubspec.lock
+ 
+-# ANDROID RELATED
++# =========================
++# Android
++# =========================
+ **/android/**/gradle-wrapper.jar
+ **/android/.gradle
+ **/android/captures/
+@@ -55,13 +64,21 @@ app.*.map.json
+ **/android/local.properties
+ **/android/**/GeneratedPluginRegistrant.java
+ 
+-# Remember to never publicly share your keystore.
+-# See https://flutter.dev/docs/deployment/android#reference-the-keystore-from-the-app
++# Android build outputs
++**/android/app/debug
++**/android/app/profile
++**/android/app/release
++*.apk
++*.aab
++
++# Keystore
+ key.properties
+ **/android/**/*.keystore
+ **/android/**/*.jks
+ 
+-# IOS RELATED
++# =========================
++# iOS
++# =========================
+ **/ios/**/dgph
+ **/ios/**/*.mode1v3
+ **/ios/**/*.mode2v3
+@@ -91,15 +108,25 @@ key.properties
+ **/ios/ServiceDefinitions.json
+ **/ios/Runner/GeneratedPluginRegistrant.*
+ 
+-# Exceptions to above rules.
++# Example iOS specific
++example/ios/Pods/
++example/ios/Flutter/
++
++# =========================
++# Binary outputs
++# =========================
++*.ipa
++*.so
++*.dill
++*.bin
++*.symbols
++*.map.json
++bundle/
++
++# =========================
++# Exceptions (Xcode project files we keep)
++# =========================
+ !**/ios/**/default.mode1v3
+ !**/ios/**/default.mode2v3
+ !**/ios/**/default.pbxuser
+ !**/ios/**/default.perspectivev3
+-
+-bundle/
+-
+-pubspec.lock
+-
+-.flutter-plugins
+-.flutter-plugins-dependencies
+diff --git a/android/app/build.gradle b/example/android/app/build.gradle
+similarity index 100%
+rename from android/app/build.gradle
+rename to example/android/app/build.gradle
+diff --git a/android/app/build.gradle.orig b/example/android/app/build.gradle.orig
+similarity index 100%
+rename from android/app/build.gradle.orig
+rename to example/android/app/build.gradle.orig
+diff --git a/android/app/src/debug/AndroidManifest.xml b/example/android/app/src/debug/AndroidManifest.xml
+similarity index 100%
+rename from android/app/src/debug/AndroidManifest.xml
+rename to example/android/app/src/debug/AndroidManifest.xml
+diff --git a/android/app/src/main/AndroidManifest.xml b/example/android/app/src/main/AndroidManifest.xml
+similarity index 100%
+rename from android/app/src/main/AndroidManifest.xml
+rename to example/android/app/src/main/AndroidManifest.xml
+diff --git a/android/app/src/main/kotlin/com/yandex/navikit_flutter_demo/MainActivity.kt b/example/android/app/src/main/kotlin/com/yandex/navikit_flutter_demo/MainActivity.kt
+similarity index 100%
+rename from android/app/src/main/kotlin/com/yandex/navikit_flutter_demo/MainActivity.kt
+rename to example/android/app/src/main/kotlin/com/yandex/navikit_flutter_demo/MainActivity.kt
+diff --git a/android/app/src/main/res/drawable-v21/launch_background.xml b/example/android/app/src/main/res/drawable-v21/launch_background.xml
+similarity index 100%
+rename from android/app/src/main/res/drawable-v21/launch_background.xml
+rename to example/android/app/src/main/res/drawable-v21/launch_background.xml
+diff --git a/android/app/src/main/res/drawable/launch_background.xml b/example/android/app/src/main/res/drawable/launch_background.xml
+similarity index 100%
+rename from android/app/src/main/res/drawable/launch_background.xml
+rename to example/android/app/src/main/res/drawable/launch_background.xml
+diff --git a/android/app/src/main/res/mipmap-hdpi/ic_launcher.png b/example/android/app/src/main/res/mipmap-hdpi/ic_launcher.png
+similarity index 100%
+rename from android/app/src/main/res/mipmap-hdpi/ic_launcher.png
+rename to example/android/app/src/main/res/mipmap-hdpi/ic_launcher.png
+diff --git a/android/app/src/main/res/mipmap-mdpi/ic_launcher.png b/example/android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+similarity index 100%
+rename from android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+rename to example/android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+diff --git a/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png b/example/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+similarity index 100%
+rename from android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+rename to example/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+diff --git a/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png b/example/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+similarity index 100%
+rename from android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+rename to example/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+diff --git a/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png b/example/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+similarity index 100%
+rename from android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+rename to example/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+diff --git a/android/app/src/main/res/values-night/styles.xml b/example/android/app/src/main/res/values-night/styles.xml
+similarity index 100%
+rename from android/app/src/main/res/values-night/styles.xml
+rename to example/android/app/src/main/res/values-night/styles.xml
+diff --git a/android/app/src/main/res/values/styles.xml b/example/android/app/src/main/res/values/styles.xml
+similarity index 100%
+rename from android/app/src/main/res/values/styles.xml
+rename to example/android/app/src/main/res/values/styles.xml
+diff --git a/android/app/src/profile/AndroidManifest.xml b/example/android/app/src/profile/AndroidManifest.xml
+similarity index 100%
+rename from android/app/src/profile/AndroidManifest.xml
+rename to example/android/app/src/profile/AndroidManifest.xml
+diff --git a/android/build.gradle b/example/android/build.gradle
+similarity index 100%
+rename from android/build.gradle
+rename to example/android/build.gradle
+diff --git a/android/build.gradle.orig b/example/android/build.gradle.orig
+similarity index 100%
+rename from android/build.gradle.orig
+rename to example/android/build.gradle.orig
+diff --git a/android/gradle.properties b/example/android/gradle.properties
+similarity index 100%
+rename from android/gradle.properties
+rename to example/android/gradle.properties
+diff --git a/android/gradle/wrapper/gradle-wrapper.properties b/example/android/gradle/wrapper/gradle-wrapper.properties
+similarity index 100%
+rename from android/gradle/wrapper/gradle-wrapper.properties
+rename to example/android/gradle/wrapper/gradle-wrapper.properties
+diff --git a/android/settings.gradle b/example/android/settings.gradle
+similarity index 100%
+rename from android/settings.gradle
+rename to example/android/settings.gradle
+diff --git a/ios/Podfile b/example/ios/Podfile
+similarity index 100%
+rename from ios/Podfile
+rename to example/ios/Podfile
+diff --git a/ios/Podfile.lock b/example/ios/Podfile.lock
+similarity index 100%
+rename from ios/Podfile.lock
+rename to example/ios/Podfile.lock
+diff --git a/ios/Runner.xcodeproj/project.pbxproj b/example/ios/Runner.xcodeproj/project.pbxproj
+similarity index 100%
+rename from ios/Runner.xcodeproj/project.pbxproj
+rename to example/ios/Runner.xcodeproj/project.pbxproj
+diff --git a/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme b/example/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme
+similarity index 100%
+rename from ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme
+rename to example/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme
+diff --git a/ios/Runner/AppDelegate.swift b/example/ios/Runner/AppDelegate.swift
+similarity index 100%
+rename from ios/Runner/AppDelegate.swift
+rename to example/ios/Runner/AppDelegate.swift
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json b/example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json
+similarity index 100%
+rename from ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json
+rename to example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png b/example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png
+similarity index 100%
+rename from ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png
+rename to example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png b/example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png
+similarity index 100%
+rename from ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png
+rename to example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png b/example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png
+similarity index 100%
+rename from ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png
+rename to example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png b/example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png
+similarity index 100%
+rename from ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png
+rename to example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png b/example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png
+similarity index 100%
+rename from ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png
+rename to example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png b/example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png
+similarity index 100%
+rename from ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png
+rename to example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png b/example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png
+similarity index 100%
+rename from ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png
+rename to example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png b/example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png
+similarity index 100%
+rename from ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png
+rename to example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png b/example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png
+similarity index 100%
+rename from ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png
+rename to example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png b/example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png
+similarity index 100%
+rename from ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png
+rename to example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png b/example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png
+similarity index 100%
+rename from ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png
+rename to example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png b/example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png
+similarity index 100%
+rename from ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png
+rename to example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png b/example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png
+similarity index 100%
+rename from ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png
+rename to example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png b/example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png
+similarity index 100%
+rename from ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png
+rename to example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png b/example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png
+similarity index 100%
+rename from ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png
+rename to example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png
+diff --git a/ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json b/example/ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json
+similarity index 100%
+rename from ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json
+rename to example/ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json
+diff --git a/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png b/example/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png
+similarity index 100%
+rename from ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png
+rename to example/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png
+diff --git a/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png b/example/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png
+similarity index 100%
+rename from ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png
+rename to example/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png
+diff --git a/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png b/example/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png
+similarity index 100%
+rename from ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png
+rename to example/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png
+diff --git a/ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md b/example/ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md
+similarity index 100%
+rename from ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md
+rename to example/ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md
+diff --git a/ios/Runner/Base.lproj/LaunchScreen.storyboard b/example/ios/Runner/Base.lproj/LaunchScreen.storyboard
+similarity index 100%
+rename from ios/Runner/Base.lproj/LaunchScreen.storyboard
+rename to example/ios/Runner/Base.lproj/LaunchScreen.storyboard
+diff --git a/ios/Runner/Base.lproj/Main.storyboard b/example/ios/Runner/Base.lproj/Main.storyboard
+similarity index 100%
+rename from ios/Runner/Base.lproj/Main.storyboard
+rename to example/ios/Runner/Base.lproj/Main.storyboard
+diff --git a/ios/Runner/Info.plist b/example/ios/Runner/Info.plist
+similarity index 100%
+rename from ios/Runner/Info.plist
+rename to example/ios/Runner/Info.plist
+diff --git a/ios/Runner/Runner-Bridging-Header.h b/example/ios/Runner/Runner-Bridging-Header.h
+similarity index 100%
+rename from ios/Runner/Runner-Bridging-Header.h
+rename to example/ios/Runner/Runner-Bridging-Header.h
+diff --git a/ios/RunnerTests/RunnerTests.swift b/example/ios/RunnerTests/RunnerTests.swift
+similarity index 100%
+rename from ios/RunnerTests/RunnerTests.swift
+rename to example/ios/RunnerTests/RunnerTests.swift
+diff --git a/example/main.dart b/example/main.dart
+new file mode 100644
+index 0000000..afe398c
+--- /dev/null
++++ b/example/main.dart
+@@ -0,0 +1,16 @@
++import 'package:flutter/material.dart';
++import 'package:navikit_flutter_demo/app.dart';
++import 'package:navikit_flutter_demo/core/resources/theme.dart';
++
++void main() async {
++  WidgetsFlutterBinding.ensureInitialized();
++
++  runApp(
++    MaterialApp(
++      theme: NavikitFlutterTheme.lightTheme,
++      darkTheme: NavikitFlutterTheme.darkTheme,
++      themeMode: ThemeMode.system,
++      home: const NavikitFlutterApp(),
++    ),
++  );
++}
+diff --git a/example/pubspec.yaml b/example/pubspec.yaml
+new file mode 100644
+index 0000000..b6bcb3b
+--- /dev/null
++++ b/example/pubspec.yaml
+@@ -0,0 +1,85 @@
++name: example
++description: "Flutter Demo App for Yandex Navikit SDK"
++# The following line prevents the package from being accidentally published to
++# pub.dev using `flutter pub publish`. This is preferred for private packages.
++publish_to: 'none' # Remove this line if you wish to publish to pub.dev
++version: 1.0.0+1
++
++environment:
++  sdk: '>=3.1.0'
++
++# Dependencies specify other packages that your package needs in order to work.
++# To automatically upgrade your package dependencies to the latest versions
++# consider running `flutter pub upgrade --major-versions`. Alternatively,
++# dependencies can be manually updated by changing the version numbers below to
++# the latest version available on pub.dev. To see which dependencies have newer
++# versions available, run `flutter pub outdated`.
++dependencies:
++  flutter:
++    sdk: flutter
++
++  navikit_flutter_demo:
++    path: ../
++    # When depending on this package from a real application you should use:
++    #   yandex_maps: ^x.y.z
++    # See https://dart.dev/tools/pub/dependencies#version-constraints
++    # The example app is bundled with the plugin so we use a path dependency on
++    # the parent directory to use the current plugin's version.
++    # path: bundle/yandex_maps
++
++  # The following adds the Cupertino Icons font to your application.
++  # Use with the CupertinoIcons class for iOS style icons.
++  cupertino_icons: ^1.0.2
++
++  permission_handler: ^11.0.1
++  rxdart: ^0.27.7
++  streaming_shared_preferences: ^2.0.0
++
++dev_dependencies:
++  flutter_test:
++    sdk: flutter
++
++  # The "flutter_lints" package below contains a set of recommended lints to
++  # encourage good coding practices. The lint set provided by the package is
++  # activated in the `analysis_options.yaml` file located at the root of your
++  # package. See that file for information about deactivating specific lint
++  # rules and activating additional ones.
++  flutter_lints: ^2.0.0
++
++# For information on the generic Dart part of this file, see the
++# following page: https://dart.dev/tools/pub/pubspec
++
++# The following section is specific to Flutter packages.
++flutter:
++
++  # The following line ensures that the Material Icons font is
++  # included with your application, so that you can use the icons in
++  # the material Icons class.
++  uses-material-design: true
++
++
++  # An image asset can refer to one or more resolution-specific "variants", see
++  # https://flutter.dev/assets-and-images/#resolution-aware
++
++  # For details regarding adding assets from package dependencies, see
++  # https://flutter.dev/assets-and-images/#from-packages
++
++  # To add custom fonts to your application, add a fonts section here,
++  # in this "flutter" section. Each entry in this list should have a
++  # "family" key with the font family name, and a "fonts" key with a
++  # list giving the asset and other descriptors for the font. For
++  # example:
++  # fonts:
++  #   - family: Schyler
++  #     fonts:
++  #       - asset: fonts/Schyler-Regular.ttf
++  #       - asset: fonts/Schyler-Italic.ttf
++  #         style: italic
++  #   - family: Trajan Pro
++  #     fonts:
++  #       - asset: fonts/TrajanPro.ttf
++  #       - asset: fonts/TrajanPro_Bold.ttf
++  #         weight: 700
++  #
++  # For details regarding fonts from package dependencies,
++  # see https://flutter.dev/custom-fonts/#from-packages
+diff --git a/ios/Flutter/AppFrameworkInfo.plist b/ios/Flutter/AppFrameworkInfo.plist
+deleted file mode 100644
+index 1dc6cf7..0000000
+--- a/ios/Flutter/AppFrameworkInfo.plist
++++ /dev/null
+@@ -1,26 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+-<plist version="1.0">
+-<dict>
+-  <key>CFBundleDevelopmentRegion</key>
+-  <string>en</string>
+-  <key>CFBundleExecutable</key>
+-  <string>App</string>
+-  <key>CFBundleIdentifier</key>
+-  <string>io.flutter.flutter.app</string>
+-  <key>CFBundleInfoDictionaryVersion</key>
+-  <string>6.0</string>
+-  <key>CFBundleName</key>
+-  <string>App</string>
+-  <key>CFBundlePackageType</key>
+-  <string>FMWK</string>
+-  <key>CFBundleShortVersionString</key>
+-  <string>1.0</string>
+-  <key>CFBundleSignature</key>
+-  <string>????</string>
+-  <key>CFBundleVersion</key>
+-  <string>1.0</string>
+-  <key>MinimumOSVersion</key>
+-  <string>13.0</string>
+-</dict>
+-</plist>
+diff --git a/ios/Flutter/Debug.xcconfig b/ios/Flutter/Debug.xcconfig
+deleted file mode 100644
+index ec97fc6..0000000
+--- a/ios/Flutter/Debug.xcconfig
++++ /dev/null
+@@ -1,2 +0,0 @@
+-#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"
+-#include "Generated.xcconfig"
+diff --git a/ios/Flutter/Release.xcconfig b/ios/Flutter/Release.xcconfig
+deleted file mode 100644
+index c4855bf..0000000
+--- a/ios/Flutter/Release.xcconfig
++++ /dev/null
+@@ -1,2 +0,0 @@
+-#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"
+-#include "Generated.xcconfig"
+diff --git a/ios/Runner.xcworkspace/contents.xcworkspacedata b/ios/Runner.xcworkspace/contents.xcworkspacedata
+deleted file mode 100644
+index 21a3cc1..0000000
+--- a/ios/Runner.xcworkspace/contents.xcworkspacedata
++++ /dev/null
+@@ -1,10 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<Workspace
+-   version = "1.0">
+-   <FileRef
+-      location = "group:Runner.xcodeproj">
+-   </FileRef>
+-   <FileRef
+-      location = "group:Pods/Pods.xcodeproj">
+-   </FileRef>
+-</Workspace>
+diff --git a/lib/main.dart b/lib/app.dart
+similarity index 61%
+rename from lib/main.dart
+rename to lib/app.dart
+index b93b50b..15925e3 100644
+--- a/lib/main.dart
++++ b/lib/app.dart
+@@ -1,5 +1,5 @@
+ import 'package:flutter/material.dart';
+-import 'package:navikit_flutter_demo/core/resources/theme.dart';
++import 'package:navikit_flutter_demo/dependencies/application_deps/application_deps_provider.dart';
+ import 'package:navikit_flutter_demo/domain/navigation/navigation_manager.dart';
+ import 'package:navikit_flutter_demo/domain/navigation/navigation_suspender_manager.dart';
+ import 'package:navikit_flutter_demo/domain/permissions/permission_manager.dart';
+@@ -7,27 +7,6 @@ import 'package:navikit_flutter_demo/features/map_screen/ui/maps/flutter_map_wid
+ import 'package:navikit_flutter_demo/features/settings/settings_bottomsheet.dart';
+ import 'package:yandex_maps_navikit/init.dart' as init;
+ 
+-import 'dependencies/application_deps/application_deps_provider.dart';
+-
+-void main() async {
+-  WidgetsFlutterBinding.ensureInitialized();
+-
+-  await initApplicationDeps();
+-  /**
+-   * Replace "your_api_key" with a valid developer key.
+-   */
+-  await init.initMapkit(apiKey: "c45d8fd7-8dac-47fc-a610-bf83eb6decf1");
+-
+-  runApp(
+-    MaterialApp(
+-      theme: NavikitFlutterTheme.lightTheme,
+-      darkTheme: NavikitFlutterTheme.darkTheme,
+-      themeMode: ThemeMode.system,
+-      home: const NavikitFlutterApp(),
+-    ),
+-  );
+-}
+-
+ class NavikitFlutterApp extends StatefulWidget {
+   const NavikitFlutterApp({super.key});
+ 
+@@ -37,25 +16,12 @@ class NavikitFlutterApp extends StatefulWidget {
+ 
+ class _NavikitFlutterAppState extends State<NavikitFlutterApp> {
+   late final AppLifecycleListener _lifecycleListener;
+-
++  bool isAppInitialized = false;
+   @override
+   void initState() {
+     super.initState();
+-    _lifecycleListener = AppLifecycleListener(
+-      onResume: () {
+-        _requestPermissionsIfNeeded();
+-      },
+-      onShow: () {
+-        navigationSuspenderManager.registerClient(NavigationClient.application);
+-      },
+-      onHide: () {
+-        _serializeNavigationIfNeeded();
+-        navigationSuspenderManager.removeClient(NavigationClient.application);
+-      },
+-    );
+ 
+-    navigationSuspenderManager.registerClient(NavigationClient.application);
+-    _requestPermissionsIfNeeded();
++    initApplicationSettings();
+   }
+ 
+   @override
+@@ -65,27 +31,27 @@ class _NavikitFlutterAppState extends State<NavikitFlutterApp> {
+     super.dispose();
+   }
+ 
+-  @override
+-  Widget build(BuildContext context) {
+-    return Scaffold(
+-      key: globalKey,
+-      body: Center(
+-        child: FlutterMapWidget(
+-          showSettingsBottomsheet: _showSettingsBottomsheet,
+-        ),
+-      ),
+-    );
+-  }
++  /// --- Listeners ---
+ 
+-  void _showSettingsBottomsheet(BuildContext context) {
+-    showModalBottomSheet(
++  void initListener() => _lifecycleListener = AppLifecycleListener(onResume: () {
++        _requestPermissionsIfNeeded();
++      }, onShow: () {
++        navigationSuspenderManager.registerClient(NavigationClient.application);
++      }, onHide: () {
++        _serializeNavigationIfNeeded();
++        navigationSuspenderManager.removeClient(NavigationClient.application);
++      });
++
++  /// --- Methods ---
++
++  void registerNavigationSuspender() => navigationSuspenderManager.registerClient(NavigationClient.application);
++
++  void _showSettingsBottomsheet(BuildContext context) => showModalBottomSheet(
+       context: context,
+       useSafeArea: true,
+       isScrollControlled: true,
+       showDragHandle: true,
+-      builder: (BuildContext context) => const SettingsBottomsheet(),
+-    );
+-  }
++      builder: (BuildContext context) => const SettingsBottomsheet());
+ 
+   void _requestPermissionsIfNeeded() {
+     final permissions = [PermissionType.accessLocation];
+@@ -94,9 +60,31 @@ class _NavikitFlutterAppState extends State<NavikitFlutterApp> {
+   }
+ 
+   void _serializeNavigationIfNeeded() {
+-    if (settingsManager.restoreGuidanceState.value &&
+-        navigationManager.isGuidanceActive) {
++    if (settingsManager.restoreGuidanceState.value && navigationManager.isGuidanceActive) {
+       navigationHolder.serialize();
+     }
+   }
++
++  void initApplicationSettings() async {
++    await initApplicationDeps();
++    /**
++   * Replace "your_api_key" with a valid developer key.
++   */
++    await init.initMapkit(apiKey: "c45d8fd7-8dac-47fc-a610-bf83eb6decf1");
++    initListener();
++    registerNavigationSuspender();
++    _requestPermissionsIfNeeded();
++    isAppInitialized = true;
++    setState(() {});
++  }
++
++  /// --- Widgets ---
++
++  @override
++  Widget build(BuildContext context) => Scaffold(
++      key: globalKey,
++      body: Center(
++          child: isAppInitialized
++              ? FlutterMapWidget(showSettingsBottomsheet: _showSettingsBottomsheet)
++              : const CircularProgressIndicator.adaptive()));
+ }
